@@ -1,0 +1,16 @@
+FROM pimcore/pimcore:PHP8.1-fpm-debug
+
+ARG UID
+ARG GID
+ARG LOCAL_IP
+
+WORKDIR /var/www
+
+RUN usermod -s /bin/bash www-data \
+    && groupmod --non-unique --gid $GID www-data \
+    && usermod --non-unique --uid $UID --gid $GID www-data
+
+RUN chown -R www-data:www-data /var/www
+
+COPY xdebug.ini /usr/local/etc/php/conf.d/99-xdebug.ini
+RUN echo "xdebug.client_host = $LOCAL_IP" >> /usr/local/etc/php/conf.d/99-xdebug.ini
