@@ -26,11 +26,10 @@ class DefaultController extends FrontendController
 
             try {
                 $bus->dispatch(new CompetitionApplicationMessage($competitionApplication));
+                $this->addFlash('success', $translator->trans('form.competition-application.success'));
             } catch (Exception $e) {
                 $this->addFlash('error', $translator->trans('form.competition-application.error'));
             }
-
-            $this->addFlash('success', $translator->trans('form.competition-application.success'));
         }
 
         return $this->render('default/default.html.twig', [
